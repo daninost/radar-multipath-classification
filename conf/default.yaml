@@ -5,6 +5,14 @@ core:
   version: 0.0.1
   tags: null
 
+radar:
+  near_sector:
+    range: 85
+    azi: 60
+  far_sector:
+    range: 250
+    azi: 9
+
 defaults:
   - hydra: default
   - nn: default
