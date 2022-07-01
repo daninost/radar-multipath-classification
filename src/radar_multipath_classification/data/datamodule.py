@@ -7,6 +7,7 @@ import hydra
 import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
+from pytorch_lightning.utilities.types import EVAL_DATALOADERS
 from torch.utils.data import DataLoader, Dataset, random_split
 from torch.utils.data.dataloader import default_collate
 from torchvision import transforms
@@ -96,6 +97,9 @@ def collate_fn(samples: List, split: Split, metadata: MetaData):
 
 
 class MyDataModule(pl.LightningDataModule):
+    def predict_dataloader(self) -> EVAL_DATALOADERS:
+        pass
+
     def __init__(
         self,
         datasets: DictConfig,
@@ -207,7 +211,7 @@ class MyDataModule(pl.LightningDataModule):
         return f"{self.__class__.__name__}(" f"{self.datasets=}, " f"{self.num_workers=}, " f"{self.batch_size=})"
 
 
-@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+@hydra.main(version_base=None, config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig) -> None:
     """Debug main to quickly develop the DataModule.
 

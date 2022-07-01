@@ -100,7 +100,7 @@ def run(cfg: DictConfig) -> str:
     else:
         if "test" in cfg.nn.data.datasets and trainer.checkpoint_callback.best_model_path is not None:
             pylogger.info("Starting testing!")
-            trainer.test(datamodule=datamodule)
+            trainer.test(datamodule=datamodule, ckpt_path="best")
 
     # Logger closing to release resources/avoid multi-run conflicts
     if logger is not None:
@@ -109,7 +109,7 @@ def run(cfg: DictConfig) -> str:
     return logger.run_dir
 
 
-@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+@hydra.main(version_base=None, config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
     run(cfg)
 
